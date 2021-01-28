@@ -149,15 +149,15 @@ namespace S210105_Alorithms_and_Data_structures
         static void testStack()
         {
             Stack<string> bookStack = new Stack<string>();
-            bookStack.Push("hello");
-            bookStack.Push("world");
-            bookStack.Push("wow");
-            bookStack.Push("test");
+            bookStack.Enqueue("hello");
+            bookStack.Enqueue("world");
+            bookStack.Enqueue("wow");
+            bookStack.Enqueue("test");
 
             bookStack.Print();
 
             Console.WriteLine();
-            bookStack.Pop();
+            bookStack.Dequeue();
             bookStack.Print();
 
         }
@@ -185,7 +185,7 @@ namespace S210105_Alorithms_and_Data_structures
         private T[] stack = new T[10];
         private int currentStackPlace = -1;
 
-        public void Push(T newItem)
+        public void Enqueue(T newItem)
         {
             if (currentStackPlace <= stack.GetLength(0)-1)
             {
@@ -197,7 +197,7 @@ namespace S210105_Alorithms_and_Data_structures
                 Console.WriteLine("stack is full");
             }
         }
-        public T Pop()
+        public T Dequeue()
         {
             if (currentStackPlace != -1)
             {
