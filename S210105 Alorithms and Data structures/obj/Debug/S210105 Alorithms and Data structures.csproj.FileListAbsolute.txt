@@ -1,0 +1,7 @@
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\obj\Debug\S210105 Alorithms and Data structures.csprojAssemblyReference.cache
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\obj\Debug\S210105 Alorithms and Data structures.csproj.CoreCompileInputs.cache
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\bin\Debug\S210105 Alorithms and Data structures.exe.config
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\bin\Debug\S210105 Alorithms and Data structures.exe
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\bin\Debug\S210105 Alorithms and Data structures.pdb
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\obj\Debug\S210105 Alorithms and Data structures.exe
+D:\-- Uni --\Algoritms and Data Structures\Code\S210105 Alorithms and Data structures\S210105 Alorithms and Data structures\obj\Debug\S210105 Alorithms and Data structures.pdb
