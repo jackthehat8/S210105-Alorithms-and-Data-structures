@@ -185,7 +185,7 @@ namespace S210105_Alorithms_and_Data_structures
         private T[] stack = new T[10];
         private int currentStackPlace = -1;
 
-        public void Enqueue(T newItem)
+        public void Enqueue(T newItem)//push
         {
             if (currentStackPlace <= stack.GetLength(0)-1)
             {
@@ -197,7 +197,7 @@ namespace S210105_Alorithms_and_Data_structures
                 Console.WriteLine("stack is full");
             }
         }
-        public T Dequeue()
+        public T Dequeue()//pop
         {
             if (currentStackPlace != -1)
             {
@@ -222,5 +222,46 @@ namespace S210105_Alorithms_and_Data_structures
         }
 
     }
+
+    //class Queue<T>
+    //{
+    //    private T[] queue = new T[10];
+
+    //    public void Enqueue(T newItem)//push
+    //    {
+    //        if (currentStackPlace <= stack.GetLength(0) - 1)
+    //        {
+    //            currentStackPlace++;
+    //            stack[currentStackPlace] = newItem;
+    //        }
+    //        else
+    //        {
+    //            Console.WriteLine("stack is full");
+    //        }
+    //    }
+    //    public T Dequeue()//pop
+    //    {
+    //        if (currentStackPlace != -1)
+    //        {
+    //            T returnValue = stack[currentStackPlace];
+    //            stack[currentStackPlace] = default(T);
+    //            currentStackPlace--;
+    //            return returnValue;
+    //        }
+    //        else
+    //        {
+    //            Console.WriteLine("stack is empty");
+    //            return default(T);
+    //        }
+    //    }
+
+    //    public void Print()
+    //    {
+    //        for (int i = 9; i > -1; i--)
+    //        {
+    //            Console.WriteLine((i + 1) + ": " + stack[i]);
+    //        }
+    //    }
+    //}
 
 }
