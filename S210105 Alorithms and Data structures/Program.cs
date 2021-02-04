@@ -401,14 +401,52 @@ namespace S210105_Alorithms_and_Data_structures
             }
             End.Data = default;
             End = temp;
+            --count;
         }
 
-        public void moveUp(int currentPlace)
+        public void moveUp(int place)
         {
+            if (place > -1 && place < count)
+            {
 
+                MyNode<T> currentPlace = Head;
+                MyNode<T> nextPlace = Head.NextNodeRef;
+
+
+                if (place == 0)
+                {
+                    currentPlace.Data = default(T);
+                    Head = currentPlace.NextNodeRef;
+                    currentPlace.NextNodeRef = default;
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (i == place - 1)
+                        {
+                            currentPlace.NextNodeRef = nextPlace.NextNodeRef;
+                            nextPlace.Data = default(T);
+                            nextPlace.NextNodeRef = default;
+                            break;
+                        }
+                        currentPlace = nextPlace;
+                        nextPlace = nextPlace.NextNodeRef;
+                    }
+                }
+                --count;
+            }
+            else if (place == count)
+            {
+                Console.WriteLine("cannot move last place up")
+            }
+            else
+            {
+                Console.WriteLine("outside range of data");
+            }
         }
 
-        public void moveDown(int currentPlace)
+        public void moveDown(int place)
         {
 
         }
@@ -428,6 +466,7 @@ namespace S210105_Alorithms_and_Data_structures
     {
         public T Data;
         public MyNode<T> NextNodeRef;
+        public MyNode<T> PreviousNodeRef;
     }
 
 }
