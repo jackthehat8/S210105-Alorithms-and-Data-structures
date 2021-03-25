@@ -1,5 +1,5 @@
 ﻿using System;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace S210105_Alorithms_and_Data_structures
             while (swapped)
             {
                 swapped = false;
-                for (int i = 0; i < array.Length-1; i++)
+                for (int i = 0; i < array.Length - 1; i++) //10 
                 {
                     if (array[i] > array[i + 1])
                     {
@@ -39,21 +39,162 @@ namespace S210105_Alorithms_and_Data_structures
 
         static int[] insertionSort(int[] input)
         {
-            int[] output = new int[input.Length];
 
             for (int i = 1; i < input.Length; i++)
             {
                 int currentValue = input[i];
                 int shiftPointer = i - 1;
-                while(shiftPointer >= 0 && input[shiftPointer] > currentValue)
+                while (shiftPointer >= 0 && input[shiftPointer] > currentValue)
                 {
                     input[shiftPointer + 1] = input[shiftPointer];
                     shiftPointer--;
                 }
                 input[shiftPointer + 1] = currentValue;
-            }  
+            }
 
             return input;
+        }
+
+        static int[] quickSort(int[] input, int first, int last)
+        {
+            if (first < last)
+            {
+                int pivotValue = input[first];
+                int leftPointer = first;
+                int rightPointer = last;
+
+                while (leftPointer < rightPointer)
+                {
+                    while (input[leftPointer] <= pivotValue && leftPointer <= rightPointer && leftPointer < last)
+                    {
+                        leftPointer++;
+                    }
+                    while (input[rightPointer] >= pivotValue && rightPointer >= leftPointer && rightPointer > first)
+                    {
+                        rightPointer--;
+                    }
+                    if (leftPointer < rightPointer)
+                    {
+                        int temp = input[leftPointer];
+                        input[leftPointer] = input[rightPointer];
+                        input[rightPointer] = temp;
+                    }
+                }
+
+                int pivot = rightPointer;
+                int temp1 = input[first];
+                input[first] = input[pivot];
+                input[pivot] = temp1;
+
+                input = quickSort(input, first, pivot - 1);
+                input = quickSort(input, pivot + 1, last);
+            }
+            return input;
+        }
+
+        static bool binarySeach(int[] list, int value, int start, int end)
+        {
+            bool output = false;
+            if (start == end)
+            {
+                if (list[start] == value)
+                    output = true;
+                else
+                    output = false;
+            }
+            else
+            {
+                int middle = start + ((end - start) / 2);
+                if (list[middle] == value)
+                {
+                    output = true;
+                }
+                else if (value < list[middle])
+                {
+                    output = binarySeach(list, value, start, middle - 1);
+                }
+                else if (value > list[middle])
+                {
+                    output = binarySeach(list, value, middle + 1, end);
+                }
+            }
+            return output;
+        }
+
+
+        //reference https://stackoverflow.com/questions/48556743/how-to-get-number-of-hundreds-and-tens-from-a-total-value-in-c
+        static int GetPlaces(int value, int place)
+        {
+            return ((value % (place * 10)) - (value % place)) / place;
+        }
+        //end reference
+        static int[] radixSort(int[] input)
+        {
+            List<int>[] Buckets = new List<int>[10];
+            int Coloum = 1;
+            do
+            {
+                for (int i = 0; i < Buckets.Length; i++)
+                {
+                    Buckets[i] = new List<int>();
+                }
+
+
+                foreach (int element in input)
+                {
+                    int bucketIndex = GetPlaces(element, Coloum);
+                    Buckets[bucketIndex].Add(element);
+                }
+
+                input = new int[input.Length];
+                int index = 0;
+                foreach (List<int> bucket in Buckets)
+                {
+                    foreach (int element in bucket)
+                    {
+                        input[index] = element;
+                        index++;
+                    }
+                }
+
+                Coloum *= 10;
+            } while (Buckets[0].Count != input.Length);
+            return input;
+        }
+
+        struct Edge 
+        {
+            public int NodeToConnectTo;
+            public int Weight;
+
+            public Edge(int _NodeToConnectTo, int _Weight)
+            {
+                NodeToConnectTo = _NodeToConnectTo;
+                Weight = _Weight;
+            }
+        }
+
+        List<List<Edge>>weightedGraph;
+        public void Graph()
+        {
+            int NumberOfNodes = 5;
+            weightedGraph = new List<List<Edge>>(NumberOfNodes);
+            weightedGraph[0].Add(new Edge(4, 30));
+            weightedGraph[0].Add(new Edge(1, 20));
+            weightedGraph[0].Add(new Edge(2, 10));
+
+            weightedGraph[1].Add(new Edge(0, 20));
+            weightedGraph[1].Add(new Edge(3, 15));
+            weightedGraph[1].Add(new Edge(4, 20));
+
+            weightedGraph[2].Add(new Edge(0, 10));
+
+            weightedGraph[3].Add(new Edge(1, 15));
+            weightedGraph[3].Add(new Edge(4, 100));
+
+            weightedGraph[4].Add(new Edge(3, 100));
+            weightedGraph[4].Add(new Edge(1, 20));
+            weightedGraph[4].Add(new Edge(0, 30));
         }
 
         static void testGenericClass()
@@ -242,6 +383,97 @@ namespace S210105_Alorithms_and_Data_structures
             Console.WriteLine();
         }
 
+        static void testQuickSort()
+        {
+            Console.WriteLine("Quick Sort");
+            int[] testQuickArray = new int[10] { 5, 3, 7, 8, 98, 9, 0, 4, 65, 2 };
+            for (int i = 0; i < testQuickArray.Length; i++)
+            {
+                Console.Write(testQuickArray[i] + ", ");
+            }
+            Console.WriteLine();
+            testQuickArray = quickSort(testQuickArray, 0, testQuickArray.Length - 1);
+            for (int i = 0; i < testQuickArray.Length; i++)
+            {
+                Console.Write(testQuickArray[i] + ", ");
+            }
+            Console.WriteLine();
+        }
+
+        static void testRadixSort()
+        {
+            Console.WriteLine("Radix Sort");
+            int[] testRadixArray = new int[10] { 5, 345, 7, 854, 98, 9, 0, 4, 65, 2 };
+            for (int i = 0; i < testRadixArray.Length; i++)
+            {
+                Console.Write(testRadixArray[i] + ", ");
+            }
+            Console.WriteLine();
+            testRadixArray = radixSort(testRadixArray);
+            for (int i = 0; i < testRadixArray.Length; i++)
+            {
+                Console.Write(testRadixArray[i] + ", ");
+            }
+            Console.WriteLine();
+        }
+
+        static void testBinarySearch()
+        {
+            Console.WriteLine("biary search");
+            int[] testBinarySearchArray = new int[10] { 0, 2, 4, 5, 7, 9, 65, 98, 345, 854 };
+            for (int i = 0; i < testBinarySearchArray.Length; i++)
+            {
+                Console.Write(testBinarySearchArray[i] + ", ");
+            }
+            Console.WriteLine();
+
+            int testValue = 98;
+            Console.WriteLine("trying to see if " + testValue + " is in the list\n");
+            bool output = binarySeach(testBinarySearchArray, testValue, 0, (testBinarySearchArray.Length - 1));
+            if (output)
+                Console.WriteLine(testValue + " is in the list");
+            else
+                Console.WriteLine(testValue + " is not in the list");
+            Console.WriteLine();
+
+            int testValue2 = 73;
+            Console.WriteLine("trying to see if " + testValue2 + " is in the list\n");
+            bool output2 = binarySeach(testBinarySearchArray, testValue2, 0, (testBinarySearchArray.Length - 1));
+            if (output2)
+                Console.WriteLine(testValue2 + " is in the list");
+            else
+                Console.WriteLine(testValue2 + " is not in the list");
+        }
+
+        static void testBinarySearchTree()
+        {
+            Console.WriteLine("Binary Search Tree");
+            int[] testBinarySearchTreeArray = new int[10] { 5, 345, 7, 854, 98, 9, 0, 4, 65, 2 };
+            for (int i = 0; i < testBinarySearchTreeArray.Length; i++)
+            {
+                Console.Write(testBinarySearchTreeArray[i] + ", ");
+            }
+            Console.WriteLine();
+            BinarySearchTree binarySearch = new BinarySearchTree();
+            binarySearch.add(testBinarySearchTreeArray);
+            int testValue = 65;
+            Console.WriteLine("trying to see if " + testValue + " is in the list\n");
+            bool output = binarySearch.find(testValue);
+            if (output)
+                Console.WriteLine(testValue + " is in the list");
+            else
+                Console.WriteLine(testValue + " is not in the list");
+            Console.WriteLine();
+
+            int testValue2 = 73;
+            Console.WriteLine("trying to see if " + testValue2 + " is in the list\n");
+            bool output2 = binarySearch.find(testValue2);
+            if (output2)
+                Console.WriteLine(testValue2 + " is in the list");
+            else
+                Console.WriteLine(testValue2 + " is not in the list");
+        }
+
         static void Main(string[] args)
         {
             testGenericClass();
@@ -269,6 +501,25 @@ namespace S210105_Alorithms_and_Data_structures
             Console.WriteLine();
 
             testInsertionSort();
+            Console.WriteLine();
+
+            testQuickSort();
+            Console.WriteLine();
+
+            testRadixSort();
+            Console.WriteLine();
+
+            testBinarySearch();
+            Console.WriteLine();
+
+            BinaryHeapMin binaryHeap = new BinaryHeapMin();
+            binaryHeap.insert(23);
+            binaryHeap.insert(3);
+            binaryHeap.insert(2);
+            binaryHeap.insert(56);
+            binaryHeap.insert(97);
+
+            testBinarySearchTree();
             Console.WriteLine();
 
             Console.ReadLine();
@@ -844,49 +1095,161 @@ class MyQueue<T>
         }
     }
 
+    public T peek()
+    {
+        return queueList.returnData(0);
+    }
+
 }
 
 //binary (minimum) heap
-class BinaryHeapMin<T>
+class BinaryHeapMin
 {
-    private BinaryNode<T> Root;
+    private BinaryNode Root;
     private int NodeCount = 0;
+    private MyQueue<BinaryNode> freeNodeQueue = new MyQueue<BinaryNode>();
+    private BinaryNode lastAddedNode;
 
-    public void add(T data)
+    public void insert (int data)
     {
-        BinaryNode<T> NewNode = new BinaryNode<T>();
-        NewNode.Data = data;
-        if (NodeCount <= 0)
+        BinaryNode newNode = new BinaryNode();
+        newNode.Data = data;
+
+        if (Root == default)
         {
-            Root = NewNode;
+            Root = newNode;
+            freeNodeQueue.Enqueue(Root);
         }
         else
         {
-            BinaryNode<T> currentNode = Root;
-            for (int i = 0; i < NodeCount; i++)
+            BinaryNode tempNodeRef = freeNodeQueue.peek();
+            if (tempNodeRef.leftNode == null)
             {
-                if (currentNode.ChildNode1 == default)
-                {
+                tempNodeRef.leftNode = newNode;
+                newNode.parentNode = tempNodeRef;
+            }
+            else if (tempNodeRef.rightNode == null)
+            {
+                tempNodeRef.rightNode = newNode;
+                newNode.parentNode = tempNodeRef;
+                _ = freeNodeQueue.Dequeue();
+            }
+            freeNodeQueue.Enqueue(newNode);
+            newNode.bubble();
+            lastAddedNode = newNode;
+        }
+        NodeCount++;
+    }
+}
 
-                }
-                else if (currentNode.ChildNode1 == default)
-                {
-
-                }
-                else
-                {
-                    
-                }
+class BinaryNode
+{
+    public int Data;
+    public BinaryNode leftNode;
+    public BinaryNode rightNode;
+    public BinaryNode parentNode;
+    
+    public void bubble()
+    {
+        if (parentNode != null)
+        {
+            if (this.Data < parentNode.Data)
+            {
+                int tempData = this.Data;
+                this.Data = parentNode.Data;
+                parentNode.Data = tempData;
+                parentNode.bubble();
+            }
+            else
+            {
+                return;
             }
         }
     }
 }
 
-class BinaryNode<T>
+class BinarySearchTree
 {
-    public T Data;
-    public BinaryNode<T> ChildNode1;
-    public BinaryNode<T> ChildNode2;
-    public BinaryNode<T> ParentNode;
+    private BinaryNode root;
+
+    public void add(int[] list)
+    {
+        foreach (int number in list) 
+        {
+            BinaryNode newNode = new BinaryNode();
+            newNode.Data = number;
+            if (root == null)
+            {
+                root = newNode;
+            }
+            else
+            {
+                compare(newNode, root);
+            }
+        }
+    }
+
+    private void compare(BinaryNode newNode, BinaryNode comparedNode)
+    {
+        if (newNode.Data <= comparedNode.Data)
+        {
+            if (comparedNode.leftNode == null)
+            {
+                comparedNode.leftNode = newNode;
+            }
+            else
+            {
+                compare(newNode, comparedNode.leftNode);
+            }
+        }
+        else
+        {
+            if (comparedNode.rightNode == null)
+            {
+                comparedNode.rightNode = newNode;
+            }
+            else
+            {
+                compare(newNode, comparedNode.rightNode);
+            }
+        }
+    }
+
+    public bool find(int number)
+    {
+        return compareNode(number, root);
+    }
+    private bool compareNode (int number, BinaryNode comparedNode)
+    {
+        bool output = false;
+        if (comparedNode.Data == number)
+        {
+            output = true;
+        }
+        else if (number < comparedNode.Data)
+        {
+            if(comparedNode.leftNode == null)
+            {
+                output = false;
+            }
+            else
+            {
+                output = compareNode(number, comparedNode.leftNode);
+            }
+
+        }
+        else if (number > comparedNode.Data)
+        {
+            if (comparedNode.rightNode == null)
+            {
+                output = false;
+            }
+            else
+            {
+                output = compareNode(number, comparedNode.rightNode);
+            }
+        }
+        return output;
+    }
 }
 
