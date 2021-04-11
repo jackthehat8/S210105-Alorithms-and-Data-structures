@@ -417,6 +417,19 @@ namespace S210105_Alorithms_and_Data_structures
             Console.WriteLine();
         }
 
+        static void testBinaryMinimumHeap()
+        {
+            Console.WriteLine("biary minimum heap \nto see the minimum heap structure a break point needs to be enabled");
+            BinaryHeapMin binaryHeap = new BinaryHeapMin();
+            binaryHeap.insert(23);
+            binaryHeap.insert(3);
+            binaryHeap.insert(2);
+            binaryHeap.insert(56);
+            binaryHeap.insert(97);
+
+            Console.WriteLine("the removed value is " + binaryHeap.remove());
+            Console.WriteLine("the removed value is " + binaryHeap.remove());
+        }
         static void testBinarySearch()
         {
             Console.WriteLine("biary search");
@@ -512,12 +525,8 @@ namespace S210105_Alorithms_and_Data_structures
             testBinarySearch();
             Console.WriteLine();
 
-            BinaryHeapMin binaryHeap = new BinaryHeapMin();
-            binaryHeap.insert(23);
-            binaryHeap.insert(3);
-            binaryHeap.insert(2);
-            binaryHeap.insert(56);
-            binaryHeap.insert(97);
+            testBinaryMinimumHeap();
+            Console.WriteLine();
 
             testBinarySearchTree();
             Console.WriteLine();
@@ -1109,6 +1118,7 @@ class BinaryHeapMin
     private int NodeCount = 0;
     private MyQueue<BinaryNode> freeNodeQueue = new MyQueue<BinaryNode>();
     private BinaryNode lastAddedNode;
+    private BinaryNode secondLastAddedNode;
 
     public void insert (int data)
     {
@@ -1122,23 +1132,67 @@ class BinaryHeapMin
         }
         else
         {
-            BinaryNode tempNodeRef = freeNodeQueue.peek();
-            if (tempNodeRef.leftNode == null)
+            bool newNodePlaced = false;
+            while (!newNodePlaced)
             {
-                tempNodeRef.leftNode = newNode;
-                newNode.parentNode = tempNodeRef;
-            }
-            else if (tempNodeRef.rightNode == null)
-            {
-                tempNodeRef.rightNode = newNode;
-                newNode.parentNode = tempNodeRef;
-                _ = freeNodeQueue.Dequeue();
+                BinaryNode tempNodeRef = freeNodeQueue.peek();
+
+                if (tempNodeRef.leftNode == null)
+                {
+                    tempNodeRef.leftNode = newNode;
+                    newNode.parentNode = tempNodeRef;
+                    newNodePlaced = true;
+                }
+                else if (tempNodeRef.rightNode == null)
+                {
+                    tempNodeRef.rightNode = newNode;
+                    newNode.parentNode = tempNodeRef;
+                    newNodePlaced = true;
+                }
+                else
+                    _ = freeNodeQueue.Dequeue();
             }
             freeNodeQueue.Enqueue(newNode);
             newNode.bubble();
+            secondLastAddedNode = lastAddedNode;
             lastAddedNode = newNode;
         }
         NodeCount++;
+    }
+
+    public int remove()
+    {
+        int output = Root.Data;
+        Root.Data = lastAddedNode.Data;
+        if (lastAddedNode.parentNode.leftNode == lastAddedNode)
+        {
+            lastAddedNode.parentNode.leftNode = null;
+        }
+        else if(lastAddedNode.parentNode.rightNode == lastAddedNode)
+        {
+            lastAddedNode.parentNode.rightNode = null;
+        }
+        compareChildren(Root);
+        lastAddedNode = secondLastAddedNode;
+        return output;
+    }
+
+    public void compareChildren(BinaryNode currentNode)
+    {
+        if(currentNode.leftNode != null && currentNode.Data > currentNode.leftNode.Data)
+        {
+            int temp = currentNode.Data;
+            currentNode.Data = currentNode.leftNode.Data;
+            currentNode.leftNode.Data = temp;
+            compareChildren(currentNode.leftNode);
+        }
+        if (currentNode.rightNode != null && currentNode.Data > currentNode.rightNode.Data)
+        {
+            int temp = currentNode.Data;
+            currentNode.Data = currentNode.rightNode.Data;
+            currentNode.rightNode.Data = temp;
+            compareChildren(currentNode.rightNode);
+        }
     }
 }
 
