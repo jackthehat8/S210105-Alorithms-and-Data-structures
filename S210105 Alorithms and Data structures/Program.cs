@@ -4,9 +4,7 @@ using System.Collections.Generic;
 //using System.Text;
 //using System.Threading.Tasks;
 
-//TO DO
-//A minimum heap
-//A maximum heap
+//S210105 Algorithms and Data Structures Assignment
 
 namespace S210105_Alorithms_and_Data_structures
 {
@@ -17,13 +15,14 @@ namespace S210105_Alorithms_and_Data_structures
             bool swapped = true;
             int temp;
 
-            while (swapped)
+            while (swapped) // will only repeat if the code has swapped 
             {
-                swapped = false;
-                for (int i = 0; i < array.Length - 1; i++) //10 
+                swapped = false; 
+                for (int i = 0; i < array.Length - 1; i++) 
                 {
-                    if (array[i] > array[i + 1])
+                    if (array[i] > array[i + 1])// check to see if the node above the current node is smaller then the current node
                     {
+                        //swap nodes
                         temp = array[i];
                         array[i] = array[i + 1];
                         array[i + 1] = temp;
@@ -105,20 +104,20 @@ namespace S210105_Alorithms_and_Data_structures
             else
             {
                 int middle = start + ((end - start) / 2);
-                if (list[middle] == value)
+                if (list[middle] == value) // check if selected value is the wanted value
                 {
                     output = true;
                 }
-                else if (value < list[middle])
+                else if (value < list[middle]) //check if value is less then selected value
                 {
                     output = binarySeach(list, value, start, middle - 1);
                 }
-                else if (value > list[middle])
+                else if (value > list[middle]) //check if valuse is bigger then selected value
                 {
                     output = binarySeach(list, value, middle + 1, end);
                 }
             }
-            return output;
+            return output; //returns true if value is in list or false if value is not in list
         }
 
 
@@ -160,41 +159,6 @@ namespace S210105_Alorithms_and_Data_structures
                 Coloum *= 10;
             } while (Buckets[0].Count != input.Length);
             return input;
-        }
-
-        struct Edge 
-        {
-            public int NodeToConnectTo;
-            public int Weight;
-
-            public Edge(int _NodeToConnectTo, int _Weight)
-            {
-                NodeToConnectTo = _NodeToConnectTo;
-                Weight = _Weight;
-            }
-        }
-
-        List<List<Edge>>weightedGraph;
-        public void Graph()
-        {
-            int NumberOfNodes = 5;
-            weightedGraph = new List<List<Edge>>(NumberOfNodes);
-            weightedGraph[0].Add(new Edge(4, 30));
-            weightedGraph[0].Add(new Edge(1, 20));
-            weightedGraph[0].Add(new Edge(2, 10));
-
-            weightedGraph[1].Add(new Edge(0, 20));
-            weightedGraph[1].Add(new Edge(3, 15));
-            weightedGraph[1].Add(new Edge(4, 20));
-
-            weightedGraph[2].Add(new Edge(0, 10));
-
-            weightedGraph[3].Add(new Edge(1, 15));
-            weightedGraph[3].Add(new Edge(4, 100));
-
-            weightedGraph[4].Add(new Edge(3, 100));
-            weightedGraph[4].Add(new Edge(1, 20));
-            weightedGraph[4].Add(new Edge(0, 30));
         }
 
         static void testGenericClass()
@@ -253,7 +217,6 @@ namespace S210105_Alorithms_and_Data_structures
 
         static void testLinkedList()
         {
-            //linked list
             Console.WriteLine("Linked list testing\n");
             MyLinkedList<string> testList = new MyLinkedList<string>();
             testList.add("hello");
@@ -285,7 +248,6 @@ namespace S210105_Alorithms_and_Data_structures
 
         static void testDoubleLinkedList()
         {
-            //double linked list
             Console.WriteLine("Double Linked list testing\n");
             MyDoubleLinkedList<string> testDoubleList = new MyDoubleLinkedList<string>();
             testDoubleList.add("hello");
@@ -416,6 +378,14 @@ namespace S210105_Alorithms_and_Data_structures
             }
             Console.WriteLine();
         }
+        
+        static void testTravellingSalesman()
+        {
+            Console.WriteLine("Travelling Salesman - Nearest Neighbour");
+            Salesman TravellingSalesman = new Salesman();
+            TravellingSalesman.addData();
+            TravellingSalesman.NearestNeighbour();
+        }
 
         static void testBinaryMinimumHeap()
         {
@@ -520,6 +490,9 @@ namespace S210105_Alorithms_and_Data_structures
             Console.WriteLine();
 
             testRadixSort();
+            Console.WriteLine();
+
+            testTravellingSalesman();
             Console.WriteLine();
 
             testBinarySearch();
@@ -632,31 +605,31 @@ class MyLinkedList<T>
         MyListNode<T> NewNode = new MyListNode<T>();
         NewNode.Data = data;
 
-        if (End != null)
+        if (End != null) //set the previous nodes reference to the new node
         {
             End.NextNodeRef = NewNode;
         }
 
-        if (Head == null)
+        if (Head == null)//set the first added node to the head of the list
         {
             Head = NewNode;
         }
 
-        End = NewNode;
+        End = NewNode; //make the new node the end of the list
 
         count++;
     }
 
     public void insert(T data, int position)
     {
-        if (position > -1 && position < count)
+        if (position > -1 && position < count) //checks the input position is in the list range
         {
             MyListNode<T> NewNode = new MyListNode<T>();
             NewNode.Data = data;
 
             MyListNode<T> currentPos = Head;
 
-            if (position == 0)
+            if (position == 0) //sets new head if position is 0
             {
                 NewNode.NextNodeRef = Head;
                 Head = NewNode;
@@ -676,7 +649,7 @@ class MyLinkedList<T>
             }
             ++count;
         }
-        else if (position == count - 1)
+        else if (position == count - 1) //if the position is the end of the list
         {
             add(data);
         }
@@ -688,14 +661,14 @@ class MyLinkedList<T>
 
     public void remove(int position)
     {
-        if (position > -1 && position < count - 1)
+        if (position > -1 && position < count - 1)//check that the input position is within the range of the list
         {
 
             MyListNode<T> currentPos = Head;
             MyListNode<T> nextPos = Head.NextNodeRef;
 
 
-            if (position == 0)
+            if (position == 0) //remove first node
             {
                 currentPos.Data = default(T);
                 Head = currentPos.NextNodeRef;
@@ -703,7 +676,7 @@ class MyLinkedList<T>
             }
             else
             {
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)//find node int list and remove it
                 {
                     if (i == position - 1)
                     {
@@ -718,7 +691,7 @@ class MyLinkedList<T>
             }
             --count;
         }
-        else if (position == count - 1)
+        else if (position == count - 1)//remove the last node
         {
             removeLast();
         }
@@ -730,7 +703,7 @@ class MyLinkedList<T>
 
     public void removeLast()
     {
-        if (count == 1)
+        if (count == 1)//enpty the whole list if there is only 1 node left
         {
             Head.Data = default;
             End.Data = default;
@@ -738,7 +711,7 @@ class MyLinkedList<T>
         else
         {
             MyListNode<T> temp = Head;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)//gets to the node 1 before the end of the list
             {
                 if (temp.NextNodeRef == End)
                 {
@@ -746,9 +719,9 @@ class MyLinkedList<T>
                 }
                 temp = temp.NextNodeRef;
             }
-            End.Data = default;
-            End = temp;
-            End.NextNodeRef = default;
+            End.Data = default;//remove data from last node
+            End = temp; //set the second to last node to the end of the list
+            End.NextNodeRef = default; //remove their referece to the previous last node
         }
         --count;
     }
@@ -762,10 +735,10 @@ class MyLinkedList<T>
 
             for (int i = 0; i < count; i++)
             {
-                if (i == position)
+                if (i == position)//find the positon of the data to be changed
                 {
-                    insert(currentPos.Data, position + 2);
-                    remove(position);
+                    insert(currentPos.Data, position + 2);//inserts the data at the positon to be moved down and makes a new node 2 nodes down from it
+                    remove(position);//removes the node at the current position
                     break;
                 }
                 currentPos = currentPos.NextNodeRef;
@@ -784,7 +757,7 @@ class MyLinkedList<T>
     public void moveUp(int position)
     {
         if (position > 0 && position < count)
-            moveDown(position - 1);
+            moveDown(position - 1);//runs the move down code of the position before it
         else if (position == 0)
             Console.WriteLine("cannot decrease the index of the start of the list");
         else
@@ -794,7 +767,7 @@ class MyLinkedList<T>
     public void printList()
     {
         MyListNode<T> temp = Head;
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)//prints out every node's data
         {
             Console.WriteLine(temp.Data);
             temp = temp.NextNodeRef;
@@ -802,11 +775,12 @@ class MyLinkedList<T>
     }
 }
 
+//MyListNode is used for Single and Double Linked list
 class MyListNode<T>
 {
     public T Data;
     public MyListNode<T> NextNodeRef;
-    public MyListNode<T> PreviousNodeRef;
+    public MyListNode<T> PreviousNodeRef;//not used in single linked list
 }
 
 class MyDoubleLinkedList<T>
@@ -828,7 +802,7 @@ class MyDoubleLinkedList<T>
         {
             Head = NewNode;
         }
-        NewNode.PreviousNodeRef = End;
+        NewNode.PreviousNodeRef = End;//has to set previous node ref as well unlike single link list
         End = NewNode;
 
         count++;
@@ -868,7 +842,7 @@ class MyDoubleLinkedList<T>
         }
         else if (position == count)
         {
-            add(data);
+            add(data);// runs add code as it does the same
         }
         else
         {
@@ -1002,7 +976,7 @@ class MyDoubleLinkedList<T>
         }
     }
 
-    public T returnData(int position)
+    public T returnData(int position)//returns data without removing it from the list
     {
         if (-1 < position && position < count)
         {
@@ -1025,18 +999,18 @@ class MyStack<T>
 {
     private MyDoubleLinkedList<T> stackList = new MyDoubleLinkedList<T>();
     private int count;
-    public void Enqueue(T data)
+    public void Enqueue(T data)//adds data to the stack
     {
         stackList.add(data);
         count++;
     }
 
-    public T Dequeue()
+    public T Dequeue()//removes top item from the stack
     {
-        if (count > 0)
+        if (count > 0) //check that the stack isnt empty
         {
-            T data = stackList.returnData(count - 1);
-            stackList.removeLast();
+            T data = stackList.returnData(count - 1); //get data of last item in stack
+            stackList.removeLast();//remove last item
             count--;
             return data;
         }
@@ -1047,7 +1021,7 @@ class MyStack<T>
         }
     }
 
-    public void PrintStack()
+    public void PrintStack() //print the whole stack
     {
         if (count > 0)
         {
@@ -1067,18 +1041,18 @@ class MyQueue<T>
 {
     private MyDoubleLinkedList<T> queueList = new MyDoubleLinkedList<T>();
     private int count;
-    public void Enqueue(T data)
+    public void Enqueue(T data) //add items to queue
     {
         queueList.add(data);
         count++;
     }
 
-    public T Dequeue()
+    public T Dequeue() //remove items from queue
     {
-        if (count > 0)
+        if (count > 0) //check queue isnt empty
         {
-            T data = queueList.returnData(0);
-            queueList.remove(0);
+            T data = queueList.returnData(0); //return data
+            queueList.remove(0); //remove first item in queue
             count--;
             return data;
         }
@@ -1089,7 +1063,7 @@ class MyQueue<T>
         }
     }
 
-    public void PrintStack()
+    public void PrintStack() //print wholle stack
     {
         if (count > 0)
         {
@@ -1104,7 +1078,7 @@ class MyQueue<T>
         }
     }
 
-    public T peek()
+    public T peek() //look at the front of the queue without removing it from the queue
     {
         return queueList.returnData(0);
     }
@@ -1120,12 +1094,12 @@ class BinaryHeapMin
     private BinaryNode lastAddedNode;
     private BinaryNode secondLastAddedNode;
 
-    public void insert (int data)
+    public void insert (int data)//add item to the heap
     {
         BinaryNode newNode = new BinaryNode();
         newNode.Data = data;
 
-        if (Root == default)
+        if (Root == default) //heap empty
         {
             Root = newNode;
             freeNodeQueue.Enqueue(Root);
@@ -1133,7 +1107,7 @@ class BinaryHeapMin
         else
         {
             bool newNodePlaced = false;
-            while (!newNodePlaced)
+            while (!newNodePlaced)//find spot where the new node can go in the tree
             {
                 BinaryNode tempNodeRef = freeNodeQueue.peek();
 
@@ -1160,7 +1134,7 @@ class BinaryHeapMin
         NodeCount++;
     }
 
-    public int remove()
+    public int remove()//remove the root node
     {
         int output = Root.Data;
         Root.Data = lastAddedNode.Data;
@@ -1172,12 +1146,12 @@ class BinaryHeapMin
         {
             lastAddedNode.parentNode.rightNode = null;
         }
-        compareChildren(Root);
+        compareChildren(Root); //sort the list to be a minimum heap again
         lastAddedNode = secondLastAddedNode;
         return output;
     }
 
-    public void compareChildren(BinaryNode currentNode)
+    public void compareChildren(BinaryNode currentNode)//checks if the children are smaller then their parent, if so the data is swapped
     {
         if(currentNode.leftNode != null && currentNode.Data > currentNode.leftNode.Data)
         {
@@ -1203,7 +1177,7 @@ class BinaryNode
     public BinaryNode rightNode;
     public BinaryNode parentNode;
     
-    public void bubble()
+    public void bubble()//compares their data with their parent and will replace it if it is smaller
     {
         if (parentNode != null)
         {
@@ -1226,7 +1200,7 @@ class BinarySearchTree
 {
     private BinaryNode root;
 
-    public void add(int[] list)
+    public void add(int[] list)//add data to the tree
     {
         foreach (int number in list) 
         {
@@ -1243,67 +1217,153 @@ class BinarySearchTree
         }
     }
 
-    private void compare(BinaryNode newNode, BinaryNode comparedNode)
+    private void compare(BinaryNode newNode, BinaryNode comparedNode)//compare 2 nodes
     {
-        if (newNode.Data <= comparedNode.Data)
+        if (newNode.Data <= comparedNode.Data) //new data is smaller then the node it is compared to
         {
             if (comparedNode.leftNode == null)
             {
-                comparedNode.leftNode = newNode;
+                comparedNode.leftNode = newNode; //place new node if left node is empty
             }
             else
             {
-                compare(newNode, comparedNode.leftNode);
+                compare(newNode, comparedNode.leftNode);//compare the children of the left node
             }
         }
-        else
+        else //new data is biger then node it is compared to
         {
             if (comparedNode.rightNode == null)
             {
-                comparedNode.rightNode = newNode;
+                comparedNode.rightNode = newNode;//place new node if right node is empty
             }
             else
             {
-                compare(newNode, comparedNode.rightNode);
+                compare(newNode, comparedNode.rightNode);//compare the children of the right node
             }
         }
     }
 
     public bool find(int number)
     {
-        return compareNode(number, root);
+        return compareNode(number, root); // calls the function compare node so that it can be recurrsive
     }
     private bool compareNode (int number, BinaryNode comparedNode)
     {
         bool output = false;
-        if (comparedNode.Data == number)
+        if (comparedNode.Data == number) //number is found
         {
             output = true;
         }
-        else if (number < comparedNode.Data)
+        else if (number < comparedNode.Data)//go to the left child
         {
-            if(comparedNode.leftNode == null)
+            if(comparedNode.leftNode == null)//if there is no child then the value was not found
             {
                 output = false;
             }
             else
             {
-                output = compareNode(number, comparedNode.leftNode);
+                output = compareNode(number, comparedNode.leftNode);//continue to next child
             }
 
         }
-        else if (number > comparedNode.Data)
+        else if (number > comparedNode.Data)//go to the right child
         {
-            if (comparedNode.rightNode == null)
+            if (comparedNode.rightNode == null)//if there is no child then the value was not found
             {
                 output = false;
             }
             else
             {
-                output = compareNode(number, comparedNode.rightNode);
+                output = compareNode(number, comparedNode.rightNode);//continue to next child
             }
         }
         return output;
     }
 }
 
+//shows the link between nodes
+class Edge 
+{
+    public Node NodeToConnectTo;
+    public int Weight;
+
+    public Edge(Node _NodeToConnectTo, int _Weight)
+    {
+        NodeToConnectTo = _NodeToConnectTo;
+        Weight = _Weight;
+    }
+}
+
+//holds the edges that connect it to other nodes and the name of the currnetNode
+class Node 
+{
+    public string Name;
+    public List<Edge> Edges = new List<Edge>();
+
+    public Node(string name)
+    {
+        Name = name;
+    }
+}
+
+class Salesman 
+{
+    public List<Node> WeightedGraph = new List<Node>();
+
+    public void addData()//adds data to the Weighted Graph
+    {
+        Node nodeA = new Node("A");
+        Node nodeB = new Node("B");
+        Node nodeC = new Node("C");
+        Node nodeD = new Node("D");
+
+        WeightedGraph.Add(nodeA);
+        WeightedGraph.Add(nodeB);
+        WeightedGraph.Add(nodeC);
+        WeightedGraph.Add(nodeD);
+
+        nodeA.Edges.Add(new Edge(nodeB, 15));
+        nodeA.Edges.Add(new Edge(nodeD, 5));
+
+        nodeB.Edges.Add(new Edge(nodeA, 15));
+        nodeB.Edges.Add(new Edge(nodeC, 7));
+        nodeB.Edges.Add(new Edge(nodeD, 10));
+
+        nodeC.Edges.Add(new Edge(nodeB, 7));
+        nodeC.Edges.Add(new Edge(nodeD, 12));
+
+        nodeD.Edges.Add(new Edge(nodeA, 5));
+        nodeD.Edges.Add(new Edge(nodeB, 10));
+        nodeD.Edges.Add(new Edge(nodeC, 12));
+
+    }
+
+    public void NearestNeighbour()
+    {
+        Node currentNode = WeightedGraph[0];
+
+        List<Node> visitedNodes = new List<Node>();//makes an empty list to store 
+
+        do
+        {
+            visitedNodes.Add(currentNode);//adds the node they are currently at
+
+            Edge shortestEdge = new Edge(new Node("temp"), int.MaxValue); //makes a temporay value so that others can be put in its place
+
+            foreach (Edge currentEdge in currentNode.Edges)
+            {
+                if (!visitedNodes.Contains(currentEdge.NodeToConnectTo) && currentEdge.Weight < shortestEdge.Weight)//checks if the node has not been visited and that the distance to it is shorter then the current one
+                {
+                    shortestEdge = currentEdge;
+                }
+            }
+
+            currentNode = shortestEdge.NodeToConnectTo;
+        } while (visitedNodes.Count < WeightedGraph.Count);
+
+        foreach (Node node in visitedNodes)//outputs the order
+        {
+            Console.WriteLine(node.Name);
+        }
+    }
+}
